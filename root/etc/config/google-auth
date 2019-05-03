@@ -1,0 +1,4 @@
+
+config google-auth 'config'
+	option enabled '0'
+	option seckey ''

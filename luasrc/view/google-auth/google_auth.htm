@@ -1,0 +1,25 @@
+
+<style>.mar-10 {margin-left: 50px; margin-right: 10px;}</style>
+<fieldset class="cbi-section" align="center">
+	<div id="qrcode"></div>
+	请用Google Authenticator扫码绑定
+</fieldset>
+<script type='text/javascript' src='<%=resource%>/jquery.min.js'></script>
+<script type="text/javascript" src="<%=resource%>/jquery.qrcode.min.js"></script>
+<%
+	local txtqrcode="otpauth://totp/Router?secret="
+	local seckey = luci.sys.exec("uci get google-auth.config.seckey")
+	seckey = string.gsub(seckey, "^%s*(.-)%s*$", "%1")
+	txtqrcode=txtqrcode..seckey
+%>
+<%- if(string.len(seckey)>1) then %>
+<script>
+//生成100*100(宽度100，高度100)的二维码
+jQuery('#qrcode').qrcode({
+    render: "canvas", //也可以替换为table
+    width: 150,
+    height: 150,
+    text: "<%=txtqrcode%>"
+});
+</script>
+<% end -%>
